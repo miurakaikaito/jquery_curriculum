@@ -31,18 +31,18 @@
       // .addClass() クラスを追加します。
       // .removeClass() クラスを削除します。
 
-      // $(function(){
-      //   var $navItem = $('.nav').find('li');
-      //   var $contentsItem = $('.contents').find('li');
+      $(function() {
+        var $navItem = $('.nav').find('li');
+        var $contentsItem = $('.contents').find('li');
 
-      //   $navItem.on('click', function(){
-      //     var index = $(this).index();
-      //     $contentsItem
-      //       .addClass('is-hidden')
-      //       .eq(index)
-      //       .removeClass('is-hidden');
-      //   });
-      // });
+        $navItem.on('click', function() {
+          var index = $(this).index();
+          $contentsItem
+            .addClass('is-hidden')
+            .eq(index)
+            .removeClass('is-hidden');
+        });
+      });
 
       function Item(){
         this.$navItem = $('.nav').find('li');

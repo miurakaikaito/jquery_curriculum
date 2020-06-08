@@ -70,10 +70,10 @@
 <script src="../../common/js/jquery.js"></script>
 <script>
   $(function(){
-    $('#q1').css('color','red')
+    $('#q1').css('color', 'red')
 
-    $('#q2').click(function(){
-      $(this).css('background-color','cadetblue')
+    $('#q2').click(function() {
+      $(this).css('background-color', 'cadetblue')
     });
 
     $('#q3').click(fadeOut);
@@ -81,42 +81,42 @@
       $(this).fadeOut(2000);
     }
 
-    $('#q4').click(function(){
+    $('#q4').click(function() {
       $(this).prepend('DOMの中の前')
              .append('DOMの中の後')
              .before('DOMの前')
              .after('DOMの後')
     });
 
-    $('#q5').click(function(){
+    $('#q5').click(function() {
       $(this).addClass('large')
     });
 
-    $('#q6').click(function (){
-      $(this).animate({
+    $('#q6').click(function() {
+      $(this).animate( {
         'margin-top': 100,
         'margin-left': 100
       },2000);
     });
 
-    $('#q7').find('li').click(function(){
+    $('#q7').find('li').click(function() {
       var targetNam = $(this).index();
       console.log(targetNam);
       alert(targetNam);
     });
 
-    $('#q8').hover(function(){
+    $('#q8').hover(function() {
       $(this).addClass('large');
-    },function(){
+    }, function() {
       $(this).removeClass('large');
     });
 
-    $('#q9').click(function(){
+    $('#q9').click(function() {
       var text = $(this).data('text');
       console.log(text);
     });
 
-    $('#q10').find('li').click(function(){
+    $('#q10').find('li').click(function() {
       var num = $(this).index();
       $('#q11').find('li').eq(num).addClass('large');
     });
