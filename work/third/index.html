@@ -30,6 +30,46 @@
       // .eq() 引数に応じたindexの要素を指定します。
       // .addClass() クラスを追加します。
       // .removeClass() クラスを削除します。
+
+      // $(function(){
+      //   var $navItem = $('.nav').find('li');
+      //   var $contentsItem = $('.contents').find('li');
+
+      //   $navItem.on('click', function(){
+      //     var index = $(this).index();
+      //     $contentsItem
+      //       .addClass('is-hidden')
+      //       .eq(index)
+      //       .removeClass('is-hidden');
+      //   });
+      // });
+
+      function Item(){
+        this.$navItem = $('.nav').find('li');
+        this.$contentsItem = $('.contents').find('li');
+        this.$hidden = $('.is-hidden')
+        this.event();
+      }
+
+      Item.prototype.event = function(){
+        this.$navItem.on('click', this.class.event.target.val)
+      }
+
+      Item.prototype.class = function(){
+        this.$contentsItem.addClass(this.$hidden);
+      };
+
+      // Item.prototype.eq = function(){
+      //   this.$contentsItem.eq(index);
+      // };
+
+      Item.prototype.class = function(){
+        this.$contentsItem.removeClass(this.$hidden);
+      };
+
+      $(function(){
+        var item = new Item();
+      });
     </script>
   </body>
 </html>
