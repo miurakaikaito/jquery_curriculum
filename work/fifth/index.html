@@ -103,11 +103,11 @@
           if (val === 'all') {
             $('.list li').show();
           } else {
-            $('.list li').each(function(index, element) {
-              if (val === $(element).data('category-type')) {
-                $(element).show();
+            $('.list li').each(function(index, list) {
+              if (val === $(list).data('category-type')) {
+                $(list).show();
               } else {
-                $(element).hide();
+                $(list).hide();
               }
             });
           }
