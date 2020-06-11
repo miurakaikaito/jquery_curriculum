@@ -70,32 +70,32 @@
 <script src="../../common/js/jquery.js"></script>
 <script>
   $(function(){
-    $('#q1').css('color', 'red')
+    $('#q1').css('color', 'red');
 
     $('#q2').click(function() {
-      $(this).css('background-color', 'cadetblue')
+      $(this).css('background-color', 'cadetblue');
     });
 
     $('#q3').click(fadeOut);
     function fadeOut(){
       $(this).fadeOut(2000);
-    }
+    };
 
     $('#q4').click(function() {
       $(this).prepend('DOMの中の前')
              .append('DOMの中の後')
              .before('DOMの前')
-             .after('DOMの後')
+             .after('DOMの後');
     });
 
     $('#q5').click(function() {
-      $(this).addClass('large')
+      $(this).addClass('large');
     });
 
     $('#q6').click(function() {
       $(this).animate( {
-        'margin-top': 100,
-        'margin-left': 100
+        'marginTop': 100,
+        'marginLeft': 100
       },2000);
     });
 
