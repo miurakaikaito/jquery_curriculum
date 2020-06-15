@@ -82,9 +82,37 @@
       //
       //
       $(function(){
-        $('#js-search-button').on('click',function(){
-          var keyword = $('#js-search-word').val();
-          var page = $('')
+        $('.next a').on('click', function(){
+          next();
+        })
+        $('#js-search-button').on('click', function(){
+          search();
+        })
+          function next(){
+            var currentpage = '1'
+          $.ajax({
+            url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
+            type: 'GET',
+            datatype: 'json',
+            data: {
+              applicationId: '1019399324990976605',
+              booksGenreId: '001',
+              hits: '20',
+              page: currentpage,
+            }
+          })
+          .done(function(data){
+            if(pageCount > currentpage){
+              currentpage++
+              console.log(currentpage)
+            }
+            else if(pageCount === currentpage){
+              $('lists').before('<div class="message">これ以上はありません。</div>')
+            }
+          })
+          }
+          function search(){
+            var keyword = $('#js-search-word').val();
           $.ajax({
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
             type: 'GET',
@@ -95,7 +123,9 @@
               keyword: keyword,
               hits: '20',
             }
-          }).done(function(data){
+          })
+          .done(function(data){
+            console.log(data)
             if(data.count > 0){
               $('ul').empty();
               $(".message").remove();
@@ -127,7 +157,7 @@
                       "<a class='btn-anchor' href=''>次へ" + '</a>' + '</li>' +
                     '</ul>' +
                   '</div>'
-                );
+              );
                 $('ul').after(pager);
             } 
             else if(data.count === 0){
@@ -141,8 +171,10 @@
             $('ul').empty();
             $('.lists').before('<div class="message">検索文字が空、もしくは半角英数1文字になっています</div>')
           });
+          }
+
         });
-      });
+    </script>
     </script>
   </body>
 </html>
