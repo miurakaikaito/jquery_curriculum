@@ -82,35 +82,26 @@
       //
       //
       $(function(){
-        $('.next a').on('click', function(){
-          next();
-        })
+        var currentpage = 1;
         $('#js-search-button').on('click', function(){
           search();
-        })
-          function next(){
-            var currentpage = '1'
-          $.ajax({
-            url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
-            type: 'GET',
-            datatype: 'json',
-            data: {
-              applicationId: '1019399324990976605',
-              booksGenreId: '001',
-              hits: '20',
-              page: currentpage,
-            }
-          })
-          .done(function(data){
-            if(pageCount > currentpage){
-              currentpage++
-              console.log(currentpage)
-            }
-            else if(pageCount === currentpage){
-              $('lists').before('<div class="message">これ以上はありません。</div>')
-            }
-          })
-          }
+        });
+        $(document).on('click', '.next', function(){
+          if($(this).hasClass('disabled')){
+            $('.lists').before('<div class="message">これ以上はありません。</div>');
+          } else{
+            currentpage = currentpage + 1;
+            search();
+          };
+        });
+        $(document).on('click', '.prev', function(){
+          if($(this).hasClass('disabled')){
+            return false
+          } else{
+            currentpage = currentpage - 1;
+            search();
+          };
+        });
           function search(){
             var keyword = $('#js-search-word').val();
           $.ajax({
@@ -122,6 +113,7 @@
               booksGenreId: '001',
               keyword: keyword,
               hits: '20',
+              page: currentpage,
             }
           })
           .done(function(data){
@@ -152,27 +144,31 @@
                   "<div class='js-pager'>" +
                     "<ul class='btn-wrapper'>" +
                       "<li class='prev btn-item'>" +
-                      "<a class='btn-anchor' href=''>前へ" + '</a>' + '</li>' +
+                      "<a class='btn-anchor' href='#'>前へ" + '</a>' + '</li>' +
                       "<li class='next btn-item'>" +
-                      "<a class='btn-anchor' href=''>次へ" + '</a>' + '</li>' +
+                      "<a class='btn-anchor' href='#'>次へ" + '</a>' + '</li>' +
                     '</ul>' +
                   '</div>'
               );
                 $('ul').after(pager);
-            } 
-            else if(data.count === 0){
+            } else if(data.count === 0){
               $(".message").remove();
               $('ul').empty();
-              $('.lists').before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索します</div>')
-            }
+              $('.lists').before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索します</div>');
+            };
+            if(data.pageCount === currentpage){
+              $('.next').addClass('disabled');
+            };
+            if(currentpage === 1){
+              $('.prev').addClass('disabled');
+            };
           })
           .fail(function(data) {
             $(".message").remove();
             $('ul').empty();
-            $('.lists').before('<div class="message">検索文字が空、もしくは半角英数1文字になっています</div>')
+            $('.lists').before('<div class="message">検索文字が空、もしくは半角英数1文字になっています</div>');
           });
-          }
-
+          };
         });
     </script>
     </script>
