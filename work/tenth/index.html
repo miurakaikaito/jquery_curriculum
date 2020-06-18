@@ -102,29 +102,25 @@
             read();
           };
         });
-        function delet(){
+        function itemDelete(){
           $('.lists').empty();
           $('.message').remove();
           $('.js-pager').remove();
         };
-        function create(data){
+        function itemCreate(data){
           if(data.count > 0){
             var list = '';
-            delet();
+            itemDelete();
             $.each(data.Items,function(i,item){
               list +=
               "<li class='lists__item'>" +
                 "<div class='lists__item__inner'>" +
-                  "<a href='" + item.Item.itemUrl + 
-                  "'class='lists__item__link' target='_blank'>" + 
-                    "<img src='" + item.Item.largeImageUrl +
-                    "' class='lists__item__img' alt>" +
-                    "<p class='lists__item__detail'>作品名： " +
-                      item.Item.title + '</p>' +
-                    "<p class='lists__item__detail'>作者 ： " +
-                      item.Item.author + '</p>' +
-                    "<p class='lists__item__detail'>出版社： " +
-                      item.Item.publisherName + '</p>' + '</a>' +
+                  "<a href='" + item.Item.itemUrl + "'class='lists__item__link' target='_blank'>" + 
+                    "<img src='" + item.Item.largeImageUrl + "' class='lists__item__img' alt>" +
+                    "<p class='lists__item__detail'>作品名： " + item.Item.title + '</p>' +
+                    "<p class='lists__item__detail'>作者 ： " + item.Item.author + '</p>' +
+                    "<p class='lists__item__detail'>出版社： " + item.Item.publisherName + '</p>' + 
+                  '</a>' +
                 '</div>' +
               '</li>';
             });
@@ -132,16 +128,18 @@
             var pager = $(
                 "<div class='js-pager'>" +
                   "<ul class='btn-wrapper'>" +
-                    "<li class='prev btn-item'>" +
-                    "<a class='btn-anchor' href='#'>前へ" + '</a>' + '</li>' +
+                    "<li class='prev btn-item'>" + 
+                      "<a class='btn-anchor' href='#'>前へ" + '</a>' + 
+                    '</li>' +
                     "<li class='next btn-item'>" +
-                    "<a class='btn-anchor' href='#'>次へ" + '</a>' + '</li>' +
+                      "<a class='btn-anchor' href='#'>次へ" + '</a>' + 
+                    '</li>' +
                   '</ul>' +
                 '</div>'
             );
             $('.lists').after(pager);
           } else if(data.count === 0){
-            delet();
+            itemDelete();
             $('.lists').before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索します</div>');
           };
         };
@@ -160,7 +158,7 @@
             }
           })
           .done(function(data){
-            create(data);
+            itemCreate(data);
             if(data.pageCount === currentpage){
               $('.next').addClass('disabled');
             };
@@ -169,16 +167,17 @@
             };
           })
           .fail(function(error) {
-            delet();
-            var errortext = error.statusText;
+            console.log(error);
+            itemDelete();
+            var errortext = error.status;
             switch (errortext){
-              case "Bad Request" :
+              case 400 :
                 $('.lists').before('<div class="message">検索文字が空、もしくは半角英数1文字になっています</div>');
                 break;
-              case "429" :
+              case 429 :
                 $('.lists').before('<div class="message">予期せぬエラーが発生しました。</div>');
                 break;
-              case "error" :
+              case 0 :
                 $('.lists').before('<div class="message">通信に失敗しました。インターネットの接続をご確認ください。</div>');
                 break;
             };
