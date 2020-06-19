@@ -85,7 +85,7 @@
         var currentpage = null;
 
         $('#js-search-button').on('click', function(){
-          var currentpage = 1;
+          currentpage = 1;
           getBooksData();
         });
 
@@ -161,7 +161,6 @@
         }
 
         function getBooksData(){
-          console.log(currentpage);
           var keyword = $('#js-search-word').val();
           $.ajax({
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
