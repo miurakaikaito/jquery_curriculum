@@ -83,31 +83,36 @@
       //
       $(function(){
         var currentpage = 1;
+
         $('#js-search-button').on('click', function(){
-          read();
+          readBooksData();
         });
+
         $(document).on('click', '.next', function(){
           if($(this).hasClass('disabled')){
             $('.lists').before('<div class="message">これ以上はありません。</div>');
           } else{
-            currentpage = currentpage + 1;
-            read();
+            currentpage++;
+            readBooksData();
           };
         });
+
         $(document).on('click', '.prev', function(){
           if($(this).hasClass('disabled')){
             return false;
           } else{
-            currentpage = currentpage - 1;
-            read();
+            currentpage--;
+            readBooksData();
           };
         });
+
         function itemDelete(){
           $('.lists').empty();
           $('.message').remove();
           $('.js-pager').remove();
         };
-        function itemCreate(data){
+
+        function createBooksItem(data){
           if(data.count > 0){
             var list = '';
             itemDelete();
@@ -143,7 +148,8 @@
             $('.lists').before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索します</div>');
           };
         };
-        function read(){
+
+        function readBooksData(){
           var keyword = $('#js-search-word').val();
           $.ajax({
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
@@ -158,7 +164,7 @@
             }
           })
           .done(function(data){
-            itemCreate(data);
+            createBooksItem(data);
             if(data.pageCount === currentpage){
               $('.next').addClass('disabled');
             };
@@ -169,22 +175,24 @@
           .fail(function(error) {
             console.log(error);
             itemDelete();
-            var errortext = error.status;
-            switch (errortext){
-              case 400 :
+            var errorcode = error.status;
+            switch (errorcode){
+              case 400:
                 $('.lists').before('<div class="message">検索文字が空、もしくは半角英数1文字になっています</div>');
                 break;
-              case 429 :
+              case 429:
                 $('.lists').before('<div class="message">予期せぬエラーが発生しました。</div>');
                 break;
-              case 0 :
+              case 0:
                 $('.lists').before('<div class="message">通信に失敗しました。インターネットの接続をご確認ください。</div>');
+                break;
+              default:
+                $('.lists').before('<div class="message">エラーが発生しました。</div>');
                 break;
             };
           });
         };
       });
-    </script>
     </script>
   </body>
 </html>
